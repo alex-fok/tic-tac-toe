@@ -26,15 +26,6 @@ function App() {
     occupied >= TOTAL_BLOCK_COUNT ? drawGame(true) : advanceCount(occupied);
   };
 
-  const checkStat = (blockNestedArray) => {
-    // Check if winning condition is met
-    const checkCondition = (conditionMet, bArray) => conditionMet || 
-      bArray.reduce((mark, block) => mark === block);
-    const playerWon = blockNestedArray.reduce(checkCondition, false);
-
-    // Proceed to next step base on game status
-    playerWon ? winGame() : continueGame();
-  }
   return (
     <div className='App'>
       <div>
@@ -44,8 +35,9 @@ function App() {
           : draw
             ? <p>DRAW!</p>
             : <Board
-              currentPlayer = {players[current  % 2]}
-              checkStat = {checkStat}
+              currentPlayer = {players[current % 2]}
+              continueGame = {continueGame}
+              winGame = {winGame}
             />
         }
       </div>
