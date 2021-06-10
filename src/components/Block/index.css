@@ -1,3 +1,22 @@
 .block {
-    cursor: pointer;
+  cursor: pointer;
+  height: 70px;
+  width: 70px;
+  text-align: center;
+  display: inline-block;
+  position: relative;
+  font-size: 48px;
+}
+.mark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.block-0, .block-1, .block-2, .block-3, .block-4, .block-5 {
+  border-bottom: 1px solid #000;
+}
+.block-0, .block-1, .block-3, .block-4, .block-6, .block-7 {
+  border-right: 1px solid #000;
 }

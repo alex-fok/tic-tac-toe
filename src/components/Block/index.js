@@ -2,12 +2,12 @@ import './index.css';
 
 const Block = ({className, makeMove, piece}) => {
   return (
-    <span
+    <div
       onClick={makeMove}
       className={className}
     >
-      {piece}
-    </span>
+      <div className='mark'>{piece}</div>
+    </div>
   )
 }
 

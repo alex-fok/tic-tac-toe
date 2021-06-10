@@ -37,7 +37,7 @@ function App() {
             : <Board
               currentPlayer = {players[current % 2]}
               continueGame = {continueGame}
-              winGame = {winGame}
+              winGame = {() => {winGame(true)}}
             />
         }
       </div>
