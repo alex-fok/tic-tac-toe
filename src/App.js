@@ -18,13 +18,12 @@ const players = [
 
 function App() {
   const [current, advanceCount] = useState(0);
-  const [gameIsOver, endGame] = useState(false);
-
-  const gameOver = () => endGame(true);
+  const [winnerExists, winGame] = useState(false);
+  const [draw, drawGame] = useState(false);
 
   const continueGame = () => {
     const occupied = current + 1;
-    occupied >= TOTAL_BLOCK_COUNT ? gameOver() : advanceCount(occupied);
+    occupied >= TOTAL_BLOCK_COUNT ? drawGame(true) : advanceCount(occupied);
   };
 
   const checkStat = (blockNestedArray) => {
@@ -34,18 +33,20 @@ function App() {
     const playerWon = blockNestedArray.reduce(checkCondition, false);
 
     // Proceed to next step base on game status
-    playerWon ? gameOver() : continueGame();
+    playerWon ? winGame() : continueGame();
   }
   return (
     <div className='App'>
       <div>
         {
-          gameIsOver
+          winnerExists
           ? <p>{players[current % 2].name} wins!</p>
-          : <Board
-            currentPlayer = {players[current  % 2]}
-            checkStat = {checkStat}
-          />
+          : draw
+            ? <p>DRAW!</p>
+            : <Board
+              currentPlayer = {players[current  % 2]}
+              checkStat = {checkStat}
+            />
         }
       </div>
     </div>
