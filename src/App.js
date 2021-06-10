@@ -20,11 +20,12 @@ function App() {
   const [current, advanceCount] = useState(0);
   const [gameIsOver, endGame] = useState(false);
 
+  const gameOver = () => endGame(true);
+
   const continueGame = () => {
     const occupied = current + 1;
-    occupied >= TOTAL_BLOCK_COUNT ? gameIsOver() : advanceCount(occupied);
+    occupied >= TOTAL_BLOCK_COUNT ? gameOver() : advanceCount(occupied);
   };
-  const gameOver = () => endGame(true);
 
   const checkStat = (blockNestedArray) => {
     // Check if winning condition is met
