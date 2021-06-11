@@ -4,14 +4,14 @@ import './App.css';
 import Game from './components/Game';
 
 const players = [
- {
+  {
     name: 'Player 1',
     piece: 'O',
- },
- {
+  },
+  {
     name: 'Player 2',
     piece: 'X',
- }  
+  }  
 ];
 
 const App = () => {
