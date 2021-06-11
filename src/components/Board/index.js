@@ -1,36 +1,23 @@
 import {useState} from 'react';
 import Block from '../Block';
-import relativeBlocks from '../../variables/relatives';
-import './index.css'
+import relatives from '../../variables/relatives';
+import './index.css';
 
-const Board = ({currentPlayer, winGame, continueGame}) => {
+const Board = ({currentPiece, proceedGame}) => {
   const [progress, updateProgress] = useState([
     '','','',
     '','','',
     '','',''
   ]);
-  const checkStat = (rObj, piece) => {
-    // Check if winning condition is met
-    const checkCondition = (conditionMet, bArray) =>
-      conditionMet || 
-      // Check if the clicked block has the same mark as its relative blocks
-      bArray.reduce((acc, b) =>
-        acc && progress[b] === piece
-      , true);
-    const playerWon = rObj.relatives.reduce(checkCondition, false);
 
-    // Proceed to next step base on game status
-    playerWon ? winGame() : continueGame();
-  }
-
-  const makeMove = (blockId) => {
+  const makeMove = (blockId, piece) => {
     if (progress[blockId] !== '') return;
 
     // Make copy of current board, then replace target block with player's piece
     const newBoard = [...progress];
-    newBoard[blockId] = currentPlayer.piece;
+    newBoard[blockId] = piece;
     updateProgress(newBoard);
-    checkStat(relativeBlocks[blockId], currentPlayer.piece);
+    proceedGame(progress, relatives[blockId], piece);
   }
   
   return (
@@ -39,7 +26,7 @@ const Board = ({currentPlayer, winGame, continueGame}) => {
           <Block
             key = {i}
             className = {`block block-${i}`}
-            makeMove = {() => {makeMove(i)}}
+            makeMove = {() => {makeMove(i, currentPiece)}}
             piece = {piece}
           />
         )

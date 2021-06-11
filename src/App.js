@@ -1,9 +1,7 @@
 import { useState } from 'react';
 
 import './App.css';
-import Board from './components/Board';
-
-const TOTAL_BLOCK_COUNT = 9;
+import Game from './components/Game';
 
 const players = [
  {
@@ -16,33 +14,47 @@ const players = [
  }  
 ];
 
-function App() {
-  const [current, advanceCount] = useState(0);
-  const [winnerExists, winGame] = useState(false);
+const App = () => {
+  const [winner, setWinner] = useState('');
   const [draw, drawGame] = useState(false);
+  const [count, setCount] = useState(0);
+  const [gameKey, setGameKey] = useState(0);
 
-  const continueGame = () => {
-    const occupied = current + 1;
-    occupied >= TOTAL_BLOCK_COUNT ? drawGame(true) : advanceCount(occupied);
-  };
+  const resetGame = () => {
+    setWinner('');
+    drawGame(false);
+    setCount(0);
+    setGameKey(gameKey + 1 % 2);
+  }
 
   return (
     <div className='App'>
-      <div>
-        {
-          winnerExists
-          ? <p>{players[current % 2].name} wins!</p>
-          : draw
-            ? <p>DRAW!</p>
-            : <Board
-              currentPlayer = {players[current % 2]}
-              continueGame = {continueGame}
-              winGame = {() => {winGame(true)}}
-            />
-        }
+      <p>{ winner !== ''
+        ? `${winner} wins!`
+        : draw
+          ? 'DRAW!'
+          : `${players[count % 2].name}'s turn`}
+      </p>
+      {/* Disable pointer events when game has ended */}
+      <div
+        style={{
+          pointerEvents: winner !== '' || draw ? 'none' : 'auto'
+        }}
+      >
+        <Game
+          key={gameKey}
+          drawGame = {() => drawGame(true)}
+          winGame = {() => {
+            if (winner === '')
+              setWinner(players[count % 2].name)
+          }}
+          count = {count}
+          setCount = {setCount}
+          currentPiece = {players[count % 2].piece}
+        />
       </div>
+      <button onClick={resetGame}>Reset Game</button>
     </div>
   );
 }
-
 export default App;
